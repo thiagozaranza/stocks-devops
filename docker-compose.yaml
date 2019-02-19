@@ -1,0 +1,50 @@
+stocks-web:
+    container_name: stocks-web
+    image: hitalos/laravel
+    ports:
+        - 8080:80
+    volumes:
+        - ./stocks-api:/var/www
+    links:
+        - stocks-db
+        - stocks-redis
+        - stocks-ng
+        - stocks-py
+    environment:
+        DB_HOST: db
+        DB_DATABASE: matrix
+        DB_USERNAME: postgres
+        DB_PASSWORD: 1qw23e
+        DB_CONNECTION: pgsql
+stocks-db:
+    container_name: stocks-db
+    image: postgres:11.2
+    volumes:
+      - ./stocks-db:/var/lib/postgresql
+    environment:
+        POSTGRES_DB: stocks
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: 1qw23e
+stocks-redis:
+    container_name: stocks-redis
+    image: redis:5.0.3
+    command: --appendonly yes
+    volumes:
+     - ./stocks-cache:/data
+    ports:
+     - 6379:6379
+stocks-py:
+    container_name: stocks-py
+    image: jupyter/scipy-notebook
+    ports:
+        - 8888:8888
+    volumes: 
+      - ./stocks-py/:/home/jovyan/work
+stocks-ng:      
+    container_name: stocks-ng
+    image: angular/ngcontainer        
+    ports:
+     - 4200:4200
+    volumes: 
+     - ./stocks-ng/:/home/circleci
+    command: ["npm", "start"]
