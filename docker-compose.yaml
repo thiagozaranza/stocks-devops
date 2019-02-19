@@ -8,7 +8,7 @@ stocks-web:
     links:
         - stocks-db
         - stocks-redis
-        - stocks-ng
+        #- stocks-ng
         - stocks-py
     environment:
         DB_HOST: db
@@ -42,9 +42,10 @@ stocks-py:
       - ./stocks-py/:/home/jovyan/work
 stocks-ng:      
     container_name: stocks-ng
-    image: angular/ngcontainer        
+    build: ./stocks-ng/        
+    environment: 
+      - APP_ENV=dev
     ports:
-     - 4200:4200
-    volumes: 
-     - ./stocks-ng/:/home/circleci
-    command: ["npm", "start"]
+     - "4200:4200"
+    volumes:
+     - ./stocks-ng/:/usr/share/nginx/html/stocks-ng 
