@@ -14,5 +14,8 @@ fi
 if [ ! -d ./stocks-py ]; then
 	git clone https://github.com/thiagozaranza/stocks-py.git
 fi
+if [ ! -d ./stocks-ng ]; then
+	git clone https://github.com/thiagozaranza/stocks-ng.git
+fi
 
 docker-compose up -d
